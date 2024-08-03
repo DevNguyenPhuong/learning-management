@@ -1,5 +1,33 @@
+import { theme } from "antd";
+import BarChart from "../components/Dashboard/BarChart";
+import TotalTaskBox from "../components/Dashboard/TotalTaskBox";
+import HeaderBox from "../components/UI/HeaderBox";
 function Dashboard() {
-  return <div>Dash board page</div>;
+  const {
+    token: { colorText },
+  } = theme.useToken();
+
+  return (
+    <section className="flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll no-scrollbar">
+      <div
+        style={{ color: colorText }}
+        className="no-scrollbar flex w-full flex-1 flex-col gap-8 px-5 sm:px-8 py-4 lg:py-6 xl:max-h-screen xl:overflow-y-scroll"
+      >
+        <header className="no-scrollbar flex flex-col justify-between gap-8">
+          <HeaderBox
+            type="greeting"
+            title="Welcome"
+            user={"Guest"}
+            subtext="Access and manage works and day efficiently."
+          />
+
+          <TotalTaskBox />
+        </header>
+
+        <BarChart />
+      </div>
+    </section>
+  );
 }
 
 export default Dashboard;

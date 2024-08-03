@@ -1,23 +1,31 @@
-import { Avatar, Layout, Menu, Switch, theme } from "antd";
-import { MoonOutlined, SunOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
-import { FaHome, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { Avatar, Layout, Menu, theme } from "antd";
+import React, { useEffect, useState } from "react";
+import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import {
   HiOutlineBookOpen,
   HiOutlineCalendar,
   HiOutlineHome,
   HiOutlineUser,
 } from "react-icons/hi";
-import { Outlet, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import Assistant from "../Assistant/Assistant";
 const { Header, Content, Sider } = Layout;
 
 function AppLayout() {
+  const { mode } = useSelector((store) => store.user);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [selectedKey, setSelectedKey] = useState("/dashboard");
   const [collapsed, setCollapsed] = useState(false);
 
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer, headerBg },
   } = theme.useToken();
+
+  useEffect(() => {
+    setSelectedKey(location.pathname);
+  }, [location.pathname]);
 
   const layoutConfig = {
     true: "ml-[80px] transition-ml duration-300 ",
@@ -27,6 +35,7 @@ function AppLayout() {
   return (
     <Layout hasSider>
       <Sider
+        theme={mode === "light" ? "dark" : "light"}
         className="!overflow-auto !h-screen !fixed !left-0 !top-0  !bottom-0 z-20"
         collapsible
         collapsed={collapsed}
@@ -34,32 +43,32 @@ function AppLayout() {
       >
         <div className=" h-16 flex items-center justify-center font-bold text-slate-300"></div>
         <Menu
-          className="[&_svg]:text-2xl font-bold"
+          className="font-bold"
           items={[
             {
               label: "Home",
               key: "/dashboard",
-              icon: <HiOutlineHome className="!text-2xl" />,
+              icon: <HiOutlineHome />,
             },
             {
               label: "Schedule",
               key: "/schedule",
-              icon: <HiOutlineCalendar className="!text-2xl" />,
+              icon: <HiOutlineCalendar />,
             },
             {
               label: "Note",
               key: "/notes",
-              icon: <HiOutlineBookOpen className="!text-2xl" />,
+              icon: <HiOutlineBookOpen />,
             },
             {
               label: "User",
               key: "/user",
-              icon: <HiOutlineUser className="!text-2xl" />,
+              icon: <HiOutlineUser />,
             },
           ]}
-          theme="dark"
+          theme={mode === "light" ? "dark" : "light"}
           mode="inline"
-          defaultSelectedKeys={"/dashboard"}
+          selectedKeys={selectedKey}
           onClick={({ key }) => {
             navigate(key);
           }}
@@ -67,15 +76,20 @@ function AppLayout() {
       </Sider>
 
       <Layout className={`${layoutConfig[collapsed]}  `}>
-        <Header className="fixed w-full top-0 left-0 z-10 flex items-center font-bold ">
+        <Header
+          style={{
+            background: mode === "light" ? headerBg : colorBgContainer,
+          }}
+          className="fixed w-full top-0 left-0 z-10 flex items-center font-bold "
+        >
+          <p className="justify-self-end">Hê</p>
           <Menu
+            theme={mode === "light" ? "dark" : "light"}
             className="flex-1 min-w-0  justify-end"
-            theme="dark"
             mode="horizontal"
-            selectedKeys={["2"]}
+            selectedKeys={[""]}
             onClick={({ key }) => {
               // if (key === "/logout") logout();
-              // if (key === "/") navigate("/");
             }}
             items={[
               {
@@ -92,11 +106,6 @@ function AppLayout() {
                 key: "avatar",
               },
               {
-                key: "/",
-                label: "Ngân hàng máu",
-                icon: <FaHome />,
-              },
-              {
                 label: "Đăng xuất",
                 key: "/logout",
                 icon: <FaSignOutAlt />,
@@ -105,15 +114,17 @@ function AppLayout() {
           />
         </Header>
 
-        <Content className="m-6 mx-4">
+        <Content className="m-6 mt-20 lg:mt-16 mx-4 ">
           <div
-            className="mt-16 p-6 text-center b rounded-lg min-h-screen"
+            className=" lg:mt-4 lg:p-6  b rounded-lg min-h-[90vh]"
             style={{
               background: colorBgContainer,
             }}
           >
             <Outlet />
           </div>
+
+          <Assistant />
         </Content>
       </Layout>
     </Layout>

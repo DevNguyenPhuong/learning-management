@@ -1,8 +1,11 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, theme } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 function Signup() {
   const [form] = Form.useForm();
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
 
   const onFinish = (values) => {
     console.log("Received values of form: ", values);
@@ -13,8 +16,19 @@ function Signup() {
   };
 
   return (
-    <div className="bg-red-100 flex items-center justify-center h-screen">
-      <div className="w-full max-w-lg">
+    <div
+      style={{
+        background: colorBgContainer,
+      }}
+      className="flex items-center justify-center h-screen"
+    >
+      <div
+        style={{
+          boxShadow:
+            " inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),0 0.9px 1.5px hsla(0, 0%, 0%, 0.045), 0 3.5px 6px hsla(0, 0%, 0%, 0.09)",
+        }}
+        className="w-full max-w-lg"
+      >
         <Form
           name="sign-up-form"
           form={form}
@@ -24,7 +38,7 @@ function Signup() {
           size="large"
           layout="horizontal"
           onFinish={onFinish}
-          className="bg-white p-8 rounded-lg shadow-lg"
+          className="p-8 rounded-lg shadow-lg"
         >
           <h1 className="text-center  text-lg uppercase font-bold">Sign up</h1>
           <p className="text-center pb-4 text-sm ">

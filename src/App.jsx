@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Notes from "./pages/Notes";
 import Error from "./pages/Error";
 import { ConfigProvider, theme } from "antd";
+import { useSelector } from "react-redux";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,18 +25,18 @@ const queryClient = new QueryClient({
 });
 
 function App() {
+  const { mode } = useSelector((store) => store.user);
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ConfigProvider
-        theme={
-          {
-            // algorithm: theme.darkAlgorithm,
-            // 1. Use dark algorithm
-            // 2. Combine dark algorithm and compact algorithm
-            // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
-          }
-        }
+        theme={{
+          algorithm:
+            mode === "dark" ? theme.darkAlgorithm : theme.defaultAlgorithm,
+          // 1. Use dark algorithm
+          // 2. Combine dark algorithm and compact algorithm
+          // algorithm: [theme.darkAlgorithm, theme.compactAlgorithm],
+        }}
       >
         <BrowserRouter>
           <Routes>
