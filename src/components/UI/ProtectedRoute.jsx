@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const { isAuthenticated } = useSelector((store) => store.user);
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
 
   useEffect(
     function () {

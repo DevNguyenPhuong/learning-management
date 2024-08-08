@@ -6,6 +6,17 @@ const initialState = {
     (window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light"),
+  full_name: "",
+  userName: "",
+  age: "",
+  gender: "",
+  description: "",
+  major: "",
+  objective: " ",
+  email: " ",
+  expericene: "",
+  isAuthenticated: false,
+  role: "",
 };
 
 const userSlice = createSlice({
@@ -24,9 +35,32 @@ const userSlice = createSlice({
         mode: "light",
       };
     },
+    setUserData(state, action) {
+      return {
+        ...state,
+        ...action.payload,
+      };
+    },
+    clearUserData(state, action) {
+      return {
+        ...state,
+        full_name: "",
+        userName: "",
+        age: "",
+        gender: "",
+        description: "",
+        major: "",
+        objective: " ",
+        email: " ",
+        expericene: "",
+        isAuthenticated: false,
+        role: "",
+      };
+    },
   },
 });
 
-export const { turnOnDarkMode, turnOnLightMode } = userSlice.actions;
+export const { turnOnDarkMode, turnOnLightMode, setUserData, clearUserData } =
+  userSlice.actions;
 
 export default userSlice.reducer;

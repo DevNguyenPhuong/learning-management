@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Assistant from "../Assistant/Assistant";
+import { useLogout } from "../Auth/useLogout";
 const { Header, Content, Sider } = Layout;
 
 function AppLayout() {
@@ -18,6 +19,7 @@ function AppLayout() {
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState("/dashboard");
   const [collapsed, setCollapsed] = useState(false);
+  const { logout, isPending } = useLogout();
 
   const {
     token: { colorBgContainer, headerBg },
@@ -87,9 +89,9 @@ function AppLayout() {
             theme={mode === "light" ? "dark" : "light"}
             className="flex-1 min-w-0  justify-end"
             mode="horizontal"
-            selectedKeys={[""]}
+            selectedKeys={["2"]}
             onClick={({ key }) => {
-              // if (key === "/logout") logout();
+              if (key === "/logout") logout();
             }}
             items={[
               {
@@ -106,7 +108,7 @@ function AppLayout() {
                 key: "avatar",
               },
               {
-                label: "Đăng xuất",
+                label: "Log out",
                 key: "/logout",
                 icon: <FaSignOutAlt />,
               },

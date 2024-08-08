@@ -15,6 +15,7 @@ import Notes from "./pages/Notes";
 import Error from "./pages/Error";
 import { ConfigProvider, theme } from "antd";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./components/UI/ProtectedRoute";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,7 +29,7 @@ function App() {
   const { mode } = useSelector((store) => store.user);
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
       <ConfigProvider
         theme={{
           algorithm:
@@ -40,7 +41,13 @@ function App() {
       >
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="schedule" element={<Schedule />} />
