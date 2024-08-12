@@ -14,15 +14,15 @@ export function useLogin() {
     mutationFn: (data) => loginAPI(data),
 
     onSuccess: (result) => {
-      queryClient.setQueryData(["user"], result?.data);
-      dispatch(setUserData({ ...result.data, isAuthenticated: true }));
-      localStorage.setItem("jwtToken", result?.data?.jwtToken);
+      queryClient.setQueryData(["user"], result);
+      dispatch(setUserData({ ...result, isAuthenticated: true }));
+      localStorage.setItem("jwtToken", result?.jwtToken);
       localStorage.setItem("isAuthenticated", true);
       navigate("/dashboard");
-      toast.success(`Welcome ${result?.data?.username}`);
+      toast.success(`Welcome ${result?.username}`);
     },
 
-    onError: () => {
+    onError: (error) => {
       toast.error("Invalid username or password!");
     },
   });

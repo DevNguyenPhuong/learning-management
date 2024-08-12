@@ -6,6 +6,7 @@ const initialState = {
     (window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light"),
+  id: "",
   full_name: "",
   userName: "",
   age: "",
@@ -44,6 +45,7 @@ const userSlice = createSlice({
     clearUserData(state, action) {
       return {
         ...state,
+        id: "",
         full_name: "",
         userName: "",
         age: "",

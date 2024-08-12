@@ -2,6 +2,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { theme } from "antd";
 import ToolBar from "./ToolBar";
+import { useEffect } from "react";
 
 function TipTap({ note, onChange }) {
   const {
@@ -10,7 +11,7 @@ function TipTap({ note, onChange }) {
 
   const editor = useEditor({
     extensions: [StarterKit.configure({})],
-    content: note,
+
     editorProps: {
       attributes: {
         class:
@@ -21,6 +22,13 @@ function TipTap({ note, onChange }) {
       onChange(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.setContent(note);
+    }
+  }, [editor, note]);
+
   return (
     <div
       className="rounded-md text-left flex flex-col justify-stretch "

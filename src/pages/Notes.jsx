@@ -1,11 +1,12 @@
 import { Button } from "antd";
-import NoteList from "../components/Notes/NoteList";
-import { HiOutlinePlus } from "react-icons/hi";
 import { useState } from "react";
-import CreateNoteModal from "../components/Notes/CreateNoteModal";
+import { HiOutlinePlus } from "react-icons/hi";
+import CreateUpdateNoteModal from "../components/Notes/CreateUpdateNoteModal";
+import NoteList from "../components/Notes/NoteList";
 
 function Notes() {
   const [open, setOpen] = useState(false);
+
   return (
     <>
       <Button
@@ -16,8 +17,12 @@ function Notes() {
       >
         Add note
       </Button>
-      <NoteList />
-      <CreateNoteModal isOpenModal={open} closeModal={() => setOpen(false)} />
+      <NoteList isOpenModal={open} closeModal={() => setOpen(false)} />
+      <CreateUpdateNoteModal
+        type="create"
+        isOpenModal={open}
+        onCloseModal={() => setOpen(false)}
+      />
     </>
   );
 }

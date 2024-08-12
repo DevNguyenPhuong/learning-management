@@ -29,8 +29,8 @@ function User() {
         onClick={handleToggleDarkMode}
       >
         <div>
-          {mode === "dark" && <FaSun class="lg:w-8 lg:h-8 w-6 h-6" />}
-          {mode === "light" && <FaMoon class="lg:w-8 lg:h-8 w-6 h-6" />}
+          {mode === "dark" && <FaSun className="lg:w-8 lg:h-8 w-6 h-6" />}
+          {mode === "light" && <FaMoon className="lg:w-8 lg:h-8 w-6 h-6" />}
         </div>
       </button>
 

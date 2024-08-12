@@ -1,26 +1,6 @@
-import React, { useState } from "react";
-import { Alert, Calendar } from "antd";
-import { format } from "date-fns";
-
+import React from "react";
+import TimeTable from "../components/Schedule/TimeTable";
 function Schedule() {
-  const [value, setValue] = useState("");
-  const [selectedValue, setSelectedValue] = useState("");
-  const onSelect = (newValue) => {
-    setValue(newValue);
-    setSelectedValue(newValue);
-  };
-  const onPanelChange = (newValue) => {
-    setValue(newValue);
-  };
-  return (
-    <>
-      <Alert message={`You selected date: ${selectedValue}`} />
-      <Calendar
-        value={value}
-        onSelect={onSelect}
-        onPanelChange={onPanelChange}
-      />
-    </>
-  );
+  return <TimeTable />;
 }
 export default Schedule;

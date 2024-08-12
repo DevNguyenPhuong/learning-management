@@ -1,7 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signup as signupAPI } from "../../services/apiAuth";
-import { useNavigate } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { signup as signupAPI } from "../../services/apiAuth";
 
 export function useSignup() {
   const navigate = useNavigate();
@@ -14,9 +14,11 @@ export function useSignup() {
       );
       navigate("/login");
     },
-    onError: (err) => {
-      console.log("ERROR", err);
-      toast.error("Opps, we cannot create your account!");
+    onError: (error) => {
+      const { response } = error;
+      toast.error(
+        response?.data.message || "Opps, we cannot create your account!"
+      );
     },
   });
   return { signup, isPending };
