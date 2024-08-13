@@ -4,6 +4,7 @@ import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import {
   HiOutlineBookOpen,
   HiOutlineCalendar,
+  HiOutlineDocumentDuplicate,
   HiOutlineHome,
   HiOutlineUser,
 } from "react-icons/hi";
@@ -19,7 +20,7 @@ function AppLayout() {
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState("/dashboard");
   const [collapsed, setCollapsed] = useState(false);
-  const { logout, isPending } = useLogout();
+  const { logout } = useLogout();
 
   const {
     token: { colorBgContainer, headerBg },
@@ -56,6 +57,11 @@ function AppLayout() {
               label: "Schedule",
               key: "/schedule",
               icon: <HiOutlineCalendar />,
+            },
+            {
+              label: "Task",
+              key: "/tasks",
+              icon: <HiOutlineDocumentDuplicate />,
             },
             {
               label: "Note",

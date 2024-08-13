@@ -16,6 +16,7 @@ import Error from "./pages/Error";
 import { ConfigProvider, theme } from "antd";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/UI/ProtectedRoute";
+import Tasks from "./pages/Tasks";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,6 +54,7 @@ function App() {
               <Route path="schedule" element={<Schedule />} />
               <Route path="user" element={<User />} />
               <Route path="notes" element={<Notes />} />
+              <Route path="tasks" element={<Tasks />} />
             </Route>
 
             <Route path="login" element={<Login />} />
