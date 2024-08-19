@@ -4,7 +4,6 @@ import { FaSignOutAlt, FaUser } from "react-icons/fa";
 import {
   HiOutlineBookOpen,
   HiOutlineCalendar,
-  HiOutlineDocumentDuplicate,
   HiOutlineHome,
   HiOutlineUser,
 } from "react-icons/hi";
@@ -58,11 +57,7 @@ function AppLayout() {
               key: "/schedules",
               icon: <HiOutlineCalendar />,
             },
-            {
-              label: "Task",
-              key: "/tasks",
-              icon: <HiOutlineDocumentDuplicate />,
-            },
+
             {
               label: "Note",
               key: "/notes",

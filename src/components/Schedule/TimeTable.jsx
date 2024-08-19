@@ -5,30 +5,25 @@ import React, { useState } from "react";
 import { HiOutlinePlus } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import CreateEventModal from "./CreateEventModal";
-import TaskModal from "./TaskModal";
 import { useGetSchedule } from "./useGetSchedule";
+import { useNavigate } from "react-router-dom";
 
 function TimeTable() {
+  const { id } = useSelector((store) => store.user);
+  const { schedules, isLoading } = useGetSchedule(id);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const [openEventModal, setOpenEventModal] = useState(false);
   const [value, setValue] = useState(() =>
     dayjs(format(new Date(), "yyyy-MM-dd"))
   );
 
-  const { id } = useSelector((store) => store.user);
-  const { schedules, isLoading } = useGetSchedule(id);
-  const [selectedScheduleId, setSelectedSheduleId] = useState();
-
   const onSelect = (newValue, scheduleId) => {
     if (newValue.format("YYYY-MM-DD") !== value.format("YYYY-MM-DD"))
       setOpen(false);
-    else setOpen(true);
-    setValue(newValue);
-    setSelectedSheduleId(scheduleId);
-    // navigate(`/schedules/${scheduleId}`);
-  };
-
-  const onPanelChange = (newValue) => {
+    else {
+      if (!scheduleId) return;
+      navigate(`/schedules/${scheduleId}`);
+    }
     setValue(newValue);
   };
 
@@ -64,38 +59,25 @@ function TimeTable() {
     return <div className="size-full" onClick={() => onSelect(value)}></div>;
   };
 
-  const cellRender = (current, info) => {
-    if (info.type === "date") return dateCellRender(current);
-    return info.originNode;
-  };
-
   return (
     <>
       <Button
         type="primary"
         icon={<HiOutlinePlus />}
         className="ml-2 mt-2"
-        onClick={() => setOpenEventModal(true)}
+        onClick={() => setOpen(true)}
       >
         Add event
       </Button>
       <Calendar
         className="min-w-[800px]"
-        cellRender={cellRender}
+        cellRender={(current) => dateCellRender(current)}
         value={value}
-        // onSelect={onSelect}
-        onPanelChange={onPanelChange}
-      />
-      <TaskModal
-        open={open}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
-        date={dayjs(value).format("DD-MM-YYYY")}
-        scheduleId={selectedScheduleId}
+        onPanelChange={(newValue) => setValue(newValue)}
       />
       <CreateEventModal
-        isOpenModal={openEventModal}
-        onCloseModal={() => setOpenEventModal(false)}
+        isOpenModal={open}
+        onCloseModal={() => setOpen(false)}
       />
     </>
   );

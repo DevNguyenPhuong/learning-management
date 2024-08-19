@@ -1,5 +1,11 @@
+import TasksList from "../components/Tasks/TasksList";
+
 function Schedule() {
-  return <div></div>;
+  return (
+    <div>
+      <TasksList />
+    </div>
+  );
 }
 
 export default Schedule;
