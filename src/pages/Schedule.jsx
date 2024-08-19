@@ -1,6 +1,5 @@
-import React from "react";
-import TimeTable from "../components/Schedule/TimeTable";
 function Schedule() {
-  return <TimeTable />;
+  return <div></div>;
 }
+
 export default Schedule;

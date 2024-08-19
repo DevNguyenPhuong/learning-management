@@ -5,18 +5,18 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound";
 import Signup from "./pages/Signup";
 
-import Schedule from "./pages/Schedule";
 import AppLayout from "./components/UI/AppLayout";
 import Login from "./pages/Login";
+import Schedules from "./pages/Schedules";
 import User from "./pages/User";
 
-import Dashboard from "./pages/Dashboard";
-import Notes from "./pages/Notes";
-import Error from "./pages/Error";
 import { ConfigProvider, theme } from "antd";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./components/UI/ProtectedRoute";
-import Tasks from "./pages/Tasks";
+import Dashboard from "./pages/Dashboard";
+import Error from "./pages/Error";
+import Notes from "./pages/Notes";
+import Schedule from "./pages/Schedule";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,10 +51,10 @@ function App() {
             >
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
-              <Route path="schedule" element={<Schedule />} />
+              <Route path="schedules" element={<Schedules />} />
+              <Route path="schedules/:id" element={<Schedule />} />
               <Route path="user" element={<User />} />
               <Route path="notes" element={<Notes />} />
-              <Route path="tasks" element={<Tasks />} />
             </Route>
 
             <Route path="login" element={<Login />} />

@@ -14,34 +14,48 @@ function CreateUpdateNoteModal({
 }) {
   const [form] = Form.useForm();
   const { id } = useSelector((store) => store.user);
-  const { createUpdateNote, isPending } = useCreateUpdateNote(onCloseModal);
+  const { createUpdateNote, isPending } = useCreateUpdateNote();
 
   function handleSubmit(values) {
     console.log(type);
     if (type === "update")
-      createUpdateNote({
-        note: {
-          ...values,
-          bookmarked: false,
-          userId: id,
-          date: format(new Date(), "MMMM d, yyyy"),
-          time: format(new Date(), "HH:mm"),
+      createUpdateNote(
+        {
+          note: {
+            ...values,
+            bookmarked: false,
+            userId: id,
+            date: format(new Date(), "MMMM d, yyyy"),
+            time: format(new Date(), "HH:mm"),
+          },
+          type: type,
+          updateNoteId: currentNoteData?.id,
         },
-        type: type,
-        updateNoteId: currentNoteData?.id,
-      });
+        {
+          onSuccess: () => {
+            onCloseModal();
+          },
+        }
+      );
     if (type === "create") {
-      createUpdateNote({
-        note: {
-          ...values,
-          bookmarked: false,
-          userId: id,
-          date: format(new Date(), "MMMM d, yyyy"),
-          time: format(new Date(), "HH:mm"),
+      createUpdateNote(
+        {
+          note: {
+            ...values,
+            bookmarked: false,
+            userId: id,
+            date: format(new Date(), "MMMM d, yyyy"),
+            time: format(new Date(), "HH:mm"),
+          },
+          type: type,
         },
-        type: type,
-      });
-      form.resetFields();
+        {
+          onSuccess: () => {
+            onCloseModal();
+            form.resetFields();
+          },
+        }
+      );
     }
   }
 

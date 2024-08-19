@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUpdateNote as createUpdateNoteAPI } from "../../services/apiNotes";
 import { toast } from "react-hot-toast";
 
-export function useCreateUpdateNote(closeModal) {
+export function useCreateUpdateNote() {
   const queryClient = useQueryClient();
   const { mutate: createUpdateNote, isPending } = useMutation({
     mutationFn: (data) => createUpdateNoteAPI(data),
@@ -12,7 +12,6 @@ export function useCreateUpdateNote(closeModal) {
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });
-      closeModal();
     },
 
     onError: (error) => {

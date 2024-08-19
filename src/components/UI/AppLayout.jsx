@@ -55,7 +55,7 @@ function AppLayout() {
             },
             {
               label: "Schedule",
-              key: "/schedule",
+              key: "/schedules",
               icon: <HiOutlineCalendar />,
             },
             {
