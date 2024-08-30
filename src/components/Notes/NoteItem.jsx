@@ -1,12 +1,14 @@
-import { HiOutlineClock, HiOutlinePencil, HiOutlineStar } from "react-icons/hi";
 import { theme } from "antd";
-import { FaTimes } from "react-icons/fa";
-import { useDeleteNote } from "./useDeleteNote";
-import CreateUpdateNoteModal from "./CreateUpdateNoteModal";
 import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
+import { HiOutlineClock, HiOutlinePencil, HiOutlineStar } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import CreateUpdateNoteModal from "./CreateUpdateNoteModal";
+import { useDeleteNote } from "./useDeleteNote";
 
 function NoteItem({ id, title, content, bookmarked, date, time, onUpdate }) {
   const { deleteNote, isPending } = useDeleteNote();
+  const { mode } = useSelector((store) => store.user);
   const [open, setOpen] = useState(false);
   function handleDelete() {
     deleteNote(id);
@@ -16,14 +18,14 @@ function NoteItem({ id, title, content, bookmarked, date, time, onUpdate }) {
     setOpen(!open);
   }
   const {
-    token: { colorText, colorBgContainer },
+    token: { colorText },
   } = theme.useToken();
   return (
     <>
       <div
         style={{
           color: colorText,
-          background: colorBgContainer,
+          background: `${mode === "dark" ? "#18181b" : "#f4f4f5"}`,
           boxShadow:
             " inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),0 0.9px 1.5px hsla(0, 0%, 0%, 0.045), 0 3.5px 6px hsla(0, 0%, 0%, 0.09)",
         }}

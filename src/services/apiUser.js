@@ -15,47 +15,44 @@ export async function getUserNotes(userId) {
     axiosConfig()
   );
   console.log(data);
-
   return data;
 }
 
 export async function getUserSchedules(userId) {
-  // const { data, error } = await axios.get(
-  //   `${BASE_URL}/${userId}/schedules`,
-  //   axiosConfig()
-  // );
-  // if (error) throw new Error(error.messsage);
-  const fakeData = [
-    {
-      date: "14-08-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "1",
-      priority: "high",
-    },
-    {
-      date: "17-08-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "2",
-      priority: "high",
-    },
-    {
-      date: "11-09-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "3",
-      priority: "medium",
-    },
-    {
-      date: "21-07-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "4",
-      priority: "medium",
-    },
-    {
-      date: "28-08-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "5",
-      priority: "medium",
-    },
-  ];
-  return fakeData;
+  const { data, error } = await axios.get(
+    `${BASE_URL}/users/${userId}/schedules`,
+    axiosConfig()
+  );
+  if (error) throw new Error(error.messsage);
+
+  return data;
+}
+
+export async function updateUser(newUser) {
+  const { data, error } = await axios.put(
+    `${BASE_URL}/users/${newUser.id}`,
+    newUser,
+    axiosConfig()
+  );
+
+  if (error) throw error;
+
+  console.log(data);
+  return data?.data;
+}
+
+export async function getUserInfo(userId) {
+  const { data, error } = await axios.get(`${BASE_URL}/users/${userId}`);
+  if (error) throw error;
+
+  return data?.data;
+}
+
+export async function getUpComingEvent(userId) {
+  const { data, error } = await axios.get(
+    `${BASE_URL}/users/${userId}/upComingEvent`,
+    axiosConfig()
+  );
+  if (error) throw error;
+  return data?.data;
 }

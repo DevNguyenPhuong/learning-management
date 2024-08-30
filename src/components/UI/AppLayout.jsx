@@ -14,7 +14,7 @@ import { useLogout } from "../Auth/useLogout";
 const { Header, Content, Sider } = Layout;
 
 function AppLayout() {
-  const { mode } = useSelector((store) => store.user);
+  const { mode, full_name } = useSelector((store) => store.user);
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedKey, setSelectedKey] = useState("/dashboard");
@@ -103,7 +103,7 @@ function AppLayout() {
                       size={32}
                       icon={<FaUser />}
                     />
-                    <span>Anonymous</span>
+                    <span>{full_name || "anonymous"}</span>
                   </div>
                 ),
                 key: "avatar",

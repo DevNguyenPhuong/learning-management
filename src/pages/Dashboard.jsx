@@ -2,10 +2,13 @@ import { theme } from "antd";
 import BarChart from "../components/Dashboard/BarChart";
 import TotalTaskBox from "../components/Dashboard/TotalTaskBox";
 import HeaderBox from "../components/UI/HeaderBox";
+import UpcomingEvenBox from "../components/Dashboard/UpcomingEventBox";
+import { useSelector } from "react-redux";
 function Dashboard() {
   const {
     token: { colorText },
   } = theme.useToken();
+  const { full_name } = useSelector((store) => store.user);
 
   return (
     <section className="flex w-full flex-row max-xl:max-h-screen max-xl:overflow-y-scroll no-scrollbar">
@@ -17,11 +20,14 @@ function Dashboard() {
           <HeaderBox
             type="greeting"
             title="Welcome"
-            user={"Guest"}
+            user={full_name}
             subtext="Access and manage works and day efficiently."
           />
 
-          <TotalTaskBox />
+          <div className="flex flex-wrap gap-8">
+            <TotalTaskBox />
+            <UpcomingEvenBox />
+          </div>
         </header>
 
         <BarChart />
