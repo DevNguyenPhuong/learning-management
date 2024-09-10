@@ -18,6 +18,7 @@ function ConfirmCreateScheduleModal({ isOpenModal, onCloseModal, dayValue }) {
         userId: id,
         content: null,
         startAt: dayjs(dayValue).unix(),
+        day: dayjs(dayValue).format("YYYY-MM-DD"),
         endAt: null,
         priority: "MEDIUM",
       },

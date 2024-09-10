@@ -1,15 +1,18 @@
+import { Result, Spin, theme } from "antd";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
-import { theme } from "antd";
+import { getISOWeek } from "date-fns";
 import { Bar } from "react-chartjs-2";
 import { useSelector } from "react-redux";
+import { useGetWeekSchedules } from "./useGetWeekSchedules.js";
+import { calculateStudyTime } from "../../Utils/helpers.js";
 
 ChartJS.register(
   CategoryScale,
@@ -21,10 +24,32 @@ ChartJS.register(
 );
 
 function StudyTimeBarChart() {
-  const { mode } = useSelector((store) => store.user);
+  const { mode, id } = useSelector((store) => store.user);
   const {
     token: { colorText },
   } = theme.useToken();
+
+  const { weekSchedules, isLoading, error } = useGetWeekSchedules(
+    id,
+    getISOWeek(new Date())
+  );
+
+  if (isLoading)
+    return (
+      <Spin className="min-h-[25rem] flex items-center justify-center"></Spin>
+    );
+
+  if (error)
+    return (
+      <Result
+        status="error"
+        title="Cannot load data"
+        subTitle="Plz check your internet connection and try again!"
+      ></Result>
+    );
+
+  const studyTime = calculateStudyTime(weekSchedules);
+
   return (
     <Bar
       data={{
@@ -40,7 +65,7 @@ function StudyTimeBarChart() {
         datasets: [
           {
             label: "Average Study Time (hours)",
-            data: [3.5, 4.2, 3.8, 4.0, 3.2, 2.5, 4.5],
+            data: studyTime,
             backgroundColor: mode === "light" ? "#6366f1" : "#3730a3",
           },
         ],

@@ -21,6 +21,7 @@ function CreateEventModal({ isOpenModal, onCloseModal }) {
         ...event,
         userId: id,
         startAt: dayjs(event.date).unix(),
+        day: dayjs(event.date).format("YYYY-MM-DD"),
         endAt: null,
       },
       {

@@ -1,11 +1,11 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  const { isAuthenticated } = useSelector((store) => store.user);
 
   useEffect(
     function () {

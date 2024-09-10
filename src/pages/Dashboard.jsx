@@ -4,6 +4,7 @@ import TotalTaskBox from "../components/Dashboard/TotalTaskBox";
 import HeaderBox from "../components/UI/HeaderBox";
 import UpcomingEvenBox from "../components/Dashboard/UpcomingEventBox";
 import { useSelector } from "react-redux";
+import TodayTaskStatusBox from "../components/Dashboard/TodayTaskStatusBox";
 function Dashboard() {
   const {
     token: { colorText },
@@ -26,6 +27,7 @@ function Dashboard() {
 
           <div className="flex flex-wrap gap-8">
             <TotalTaskBox />
+            <TodayTaskStatusBox />
             <UpcomingEvenBox />
           </div>
         </header>

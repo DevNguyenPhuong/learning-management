@@ -1,10 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { Form, Input, Modal, TimePicker } from "antd";
+import dayjs from "dayjs";
 import React from "react";
 import { createPortal } from "react-dom";
 import { useParams } from "react-router-dom";
-import { useCreateTask } from "./useCreateTask";
 import { STATUS } from "../../Utils/constants";
+import { useCreateTask } from "./useCreateTask";
 
 function CreateTaskModal({ isOpenModal, onCloseModal }) {
   const { scheduleId } = useParams();
@@ -16,6 +17,7 @@ function CreateTaskModal({ isOpenModal, onCloseModal }) {
     createTask(
       {
         ...event,
+        duration: dayjs(event.duration).format("HH:mm:ss"),
         scheduleId,
         completed: false,
         status: STATUS.IS_PENDING,

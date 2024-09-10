@@ -1,42 +1,56 @@
 import { theme } from "antd";
-import { FaPlay, FaTimes } from "react-icons/fa";
+import { useState } from "react";
+import { FaPlay, FaRedoAlt, FaTimes } from "react-icons/fa";
 import { HiOutlineCheck, HiOutlineClock } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { STATUS } from "../../Utils/constants.js";
+import { estimateCompletedAt, timeLeft } from "../../Utils/helpers.js";
+import CountdownClock from "./CountdownClock.jsx";
 import { useDeleteTask } from "./useDeleteTask";
 import { useUpdateTask } from "./useUpdateTask.js";
 
 function Task({ task }) {
   const { deleteTask, isPending } = useDeleteTask();
-  const {
-    id,
-    title,
-    completed,
-    scheduleId,
-    status,
-    completedAt,
-    startAt,
-    duration,
-  } = task;
+  const { id, title, completed, status, startAt, duration } = task;
+
   const { mode } = useSelector((store) => store.user);
   const { updateTask, isPending: isPendingUpdate } = useUpdateTask(id);
 
+  const [isCountdownStarted, setIsCountdownStarted] = useState(true);
+
+  let timeLeftTask;
+  if (isCountdownStarted)
+    timeLeftTask = timeLeft(
+      estimateCompletedAt(
+        startAt || new Date(Date.now()).toISOString(),
+        duration
+      )
+    );
   function handleComplete() {
     const updatedTask = {
       ...task,
       completed: !completed,
     };
 
-    if (updatedTask.completed) updatedTask.completedAt = new Date();
-    else updateTask.completedAt = null;
-
+    if (updatedTask.completed) {
+      console.log("rd");
+      updatedTask.completedAt = new Date(Date.now());
+      updatedTask.status = STATUS.COMPLETED;
+    } else {
+      updatedTask.completedAt = null;
+      updatedTask.status = STATUS.PROCESSING;
+    }
     updateTask(updatedTask);
   }
 
   function handleStart() {
+    const now = new Date(Date.now());
     updateTask({
       ...task,
-      startAt: new Date(),
+      startAt: now,
+      status: STATUS.PROCESSING,
     });
+    setIsCountdownStarted(true);
   }
 
   const {
@@ -66,7 +80,7 @@ function Task({ task }) {
         </p>
 
         <div>
-          <div className="flex items-center justify-between text-gray-800 ">
+          <div className="flex items-center justify-between text-gray-800 gap-2">
             <div className="mt-3 mb-3 flex items-center">
               <div
                 className="border border-gray-700  rounded-full px-3 py-1  text-gray-600 text-xs flex items-center"
@@ -74,36 +88,68 @@ function Task({ task }) {
                 role="contentinfo"
               >
                 <HiOutlineClock />
-                <p className="ml-2 "> 11:45</p>
+
+                <p className="ml-2 ">
+                  {status === STATUS.TIMEOUT && "Time out"}
+                  {status === STATUS.IS_PENDING && duration}
+                  {status === STATUS.COMPLETED && "Completed"}
+                  {status === STATUS.PROCESSING && isCountdownStarted && (
+                    <CountdownClock
+                      timeLeftTask={timeLeftTask}
+                      onTimeout={() =>
+                        updateTask({ ...task, status: STATUS.TIMEOUT })
+                      }
+                    />
+                  )}
+                </p>
               </div>
             </div>
             <div className="flex gap-2">
-              <button
-                className={`w-8 h-8 rounded-full border 
+              {status === STATUS.PROCESSING && (
+                <button
+                  className={`w-8 h-8 rounded-full border 
                  border-gray-800  ${
                    completed && "bg-gray-600"
                  }  flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 `}
-                aria-label="edit note"
-                style={{
-                  color: colorText,
-                }}
-                onClick={handleComplete}
-                disabled={isPendingUpdate || isPending}
-              >
-                <HiOutlineCheck />
-              </button>
-              <button
-                className={`w-8 h-8 rounded-full border 
+                  aria-label="edit note"
+                  style={{
+                    color: colorText,
+                  }}
+                  onClick={handleComplete}
+                  disabled={isPendingUpdate || isPending}
+                >
+                  <HiOutlineCheck />
+                </button>
+              )}
+              {status === STATUS.IS_PENDING && (
+                <button
+                  className={`w-8 h-8 rounded-full border 
                  border-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 `}
-                aria-label="edit note"
-                style={{
-                  color: colorText,
-                }}
-                onClick={handleStart}
-                disabled={isPendingUpdate || isPending}
-              >
-                <FaPlay className="size-2" />
-              </button>
+                  aria-label="edit note"
+                  style={{
+                    color: colorText,
+                  }}
+                  onClick={handleStart}
+                  disabled={isPendingUpdate || isPending}
+                >
+                  <FaPlay className="size-2" />
+                </button>
+              )}
+
+              {status === STATUS.TIMEOUT && (
+                <button
+                  className={`w-8 h-8 rounded-full border 
+                 border-gray-800 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 `}
+                  aria-label="edit note"
+                  style={{
+                    color: colorText,
+                  }}
+                  onClick={handleStart}
+                  disabled={isPendingUpdate || isPending}
+                >
+                  <FaRedoAlt className="size-2" />
+                </button>
+              )}
             </div>
           </div>
         </div>

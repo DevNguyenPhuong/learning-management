@@ -1,6 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "../Utils/constants";
 import { axiosConfig } from "../Utils/axiosConfig";
+import { BASE_URL } from "../Utils/constants";
+import { getDaysInCurrentWeek } from "../Utils/helpers";
 
 export async function getUser(userId) {
   const { data, error } = await axios.get(`${BASE_URL}/users/${userId}`);
@@ -14,8 +15,8 @@ export async function getUserNotes(userId) {
     `${BASE_URL}/users/${userId}/notes`,
     axiosConfig()
   );
-  console.log(data);
-  return data;
+
+  return data?.data;
 }
 
 export async function getUserSchedules(userId) {
@@ -25,7 +26,7 @@ export async function getUserSchedules(userId) {
   );
   if (error) throw new Error(error.messsage);
 
-  return data;
+  return data?.data;
 }
 
 export async function updateUser(newUser) {
@@ -55,4 +56,22 @@ export async function getUpComingEvent(userId) {
   );
   if (error) throw error;
   return data?.data;
+}
+
+export async function getWeekSchedules(userId, week) {
+  const arrDay = getDaysInCurrentWeek(week);
+
+  const schedulePromises = arrDay.map((day) =>
+    axios.get(`${BASE_URL}/users/${userId}/schedules/${day}`, axiosConfig())
+  );
+
+  try {
+    const responses = await Promise.all(schedulePromises);
+
+    const schedules = responses.map((response) => response.data?.data);
+
+    return schedules;
+  } catch (error) {
+    throw error;
+  }
 }

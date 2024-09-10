@@ -3,7 +3,6 @@ import { BASE_URL } from "../Utils/constants";
 import { axiosConfig } from "../Utils/axiosConfig";
 
 export async function createTask(task) {
-  console.log(task);
   await axios.post(`${BASE_URL}/tasks`, task, axiosConfig());
 }
 
