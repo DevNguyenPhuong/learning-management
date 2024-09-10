@@ -14,11 +14,7 @@ export async function getScheduleTasks(scheduleId) {
   if (error) throw error;
 
   const sortedTasks = data.data.sort((a, b) => {
-    // Assuming IDs are strings that can be compared lexicographically
     return a.id.localeCompare(b.id);
-
-    // If IDs are numeric, use this instead:
-    // return Number(a.id) - Number(b.id);
   });
 
   return sortedTasks;

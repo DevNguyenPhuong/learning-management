@@ -23,7 +23,7 @@ ChartJS.register(
   Legend
 );
 
-function StudyTimeBarChart() {
+function BarChart() {
   const { mode, id } = useSelector((store) => store.user);
   const {
     token: { colorText },
@@ -48,7 +48,8 @@ function StudyTimeBarChart() {
       ></Result>
     );
 
-  const studyTime = calculateStudyTime(weekSchedules);
+  let studyTime;
+  if (weekSchedules) studyTime = calculateStudyTime(weekSchedules);
 
   return (
     <Bar
@@ -123,4 +124,4 @@ function StudyTimeBarChart() {
   );
 }
 
-export default StudyTimeBarChart;
+export default BarChart;

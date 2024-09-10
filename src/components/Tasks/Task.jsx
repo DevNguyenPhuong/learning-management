@@ -33,7 +33,6 @@ function Task({ task }) {
     };
 
     if (updatedTask.completed) {
-      console.log("rd");
       updatedTask.completedAt = new Date(Date.now());
       updatedTask.status = STATUS.COMPLETED;
     } else {

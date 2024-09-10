@@ -10,7 +10,6 @@ export function useCreateGeminiResponse() {
   } = useMutation({
     mutationFn: (prompt) => createGeminiResponseAPI(prompt),
     onError: (e) => {
-      console.log(e);
       toast.error("Cannot create response");
     },
   });

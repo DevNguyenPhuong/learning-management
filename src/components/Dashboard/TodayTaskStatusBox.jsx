@@ -14,11 +14,16 @@ function TodayTaskStatusBox() {
 
   if (isLoading)
     return (
-      <Spin className="min-h-[25rem] flex items-center justify-center"></Spin>
+      <section
+        className="min-w-[25rem] flex items-center justify-center  rounded-xl   shadow-chart sm:gap-6 sm:p-6 "
+        style={{
+          boxShadow:
+            " inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),0 0.9px 1.5px hsla(0, 0%, 0%, 0.045), 0 3.5px 6px hsla(0, 0%, 0%, 0.09)",
+        }}
+      >
+        <Spin className="flex items-center justify-center"></Spin>
+      </section>
     );
-
-  const { TIMEOUT, IN_PROCESS, COMPLETED, IS_PENDING } =
-    calculateTaskStatusCounts(weekSchedules);
 
   if (error)
     return (
@@ -36,6 +41,15 @@ function TodayTaskStatusBox() {
         ></Result>
       </section>
     );
+
+  let TIMEOUT, IN_PROCESS, COMPLETED, IS_PENDING;
+
+  if (weekSchedules) {
+    // Destructure the returned object from the function
+    ({ TIMEOUT, IN_PROCESS, COMPLETED, IS_PENDING } =
+      calculateTaskStatusCounts(weekSchedules));
+  }
+
   return (
     <section
       className="flex rounded-xl p-2 shadow-chart sm:gap-4 sm:p-4 "

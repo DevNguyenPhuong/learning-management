@@ -1,5 +1,5 @@
 import { AudioOutlined, AudioMutedOutlined } from "@ant-design/icons";
-import { FloatButton } from "antd";
+import { FloatButton, Tooltip } from "antd";
 import useSpeechRecognition from "./useSpeechRecognition";
 
 function Assistant() {
@@ -17,12 +17,14 @@ function Assistant() {
 
   return (
     <>
-      <FloatButton
-        type="primary"
-        style={{ insetInlineEnd: 24 }}
-        icon={isListening ? <AudioOutlined /> : <AudioMutedOutlined />}
-        onClick={handleListening}
-      />
+      <Tooltip title="Saying help for more information">
+        <FloatButton
+          type="primary"
+          style={{ insetInlineEnd: 24 }}
+          icon={isListening ? <AudioOutlined /> : <AudioMutedOutlined />}
+          onClick={handleListening}
+        />
+      </Tooltip>
     </>
   );
 }

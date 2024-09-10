@@ -18,7 +18,15 @@ function TotalTaskBox() {
 
   if (isLoading)
     return (
-      <Spin className="min-h-[25rem] flex items-center justify-center"></Spin>
+      <section
+        className="min-w-[25rem] flex items-center justify-center  rounded-xl   shadow-chart sm:gap-6 sm:p-6 "
+        style={{
+          boxShadow:
+            " inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),0 0.9px 1.5px hsla(0, 0%, 0%, 0.045), 0 3.5px 6px hsla(0, 0%, 0%, 0.09)",
+        }}
+      >
+        <Spin className="flex items-center justify-center"></Spin>
+      </section>
     );
 
   if (error)
@@ -37,9 +45,12 @@ function TotalTaskBox() {
         ></Result>
       </section>
     );
-  const totalTasksInWeek = calculateTotalTasks(weekSchedules);
-  const totalTasksToday = calculateTotalTasksForToday(weekSchedules);
 
+  let totalTasksInWeek, totalTasksToday;
+  if (weekSchedules) {
+    totalTasksInWeek = calculateTotalTasks(weekSchedules);
+    totalTasksToday = calculateTotalTasksForToday(weekSchedules);
+  }
   return (
     <section
       className="flex items-center gap-4 rounded-xl   p-4 shadow-chart sm:gap-6 sm:p-6 "

@@ -10,13 +10,17 @@ export async function getUser(userId) {
 }
 
 export async function getUserNotes(userId) {
-  console.log(userId);
-  const { data } = await axios.get(
+  const { data, error } = await axios.get(
     `${BASE_URL}/users/${userId}/notes`,
     axiosConfig()
   );
+  if (error) throw error;
 
-  return data?.data;
+  const sortedNotes = data?.data.sort((a, b) => {
+    return a.id.localeCompare(b.id);
+  });
+
+  return sortedNotes;
 }
 
 export async function getUserSchedules(userId) {
@@ -38,7 +42,6 @@ export async function updateUser(newUser) {
 
   if (error) throw error;
 
-  console.log(data);
   return data?.data;
 }
 
