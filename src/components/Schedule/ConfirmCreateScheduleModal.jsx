@@ -39,7 +39,7 @@ function ConfirmCreateScheduleModal({ isOpenModal, onCloseModal, dayValue }) {
       loading={isPending}
       maskClosable={!isPending}
       className="text-center"
-      title="Create new event"
+      title="Create new day"
       open={isOpenModal}
       confirmLoading={isPending}
       onCancel={onCloseModal}

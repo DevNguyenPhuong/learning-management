@@ -88,7 +88,7 @@ function Task({ task }) {
               >
                 <HiOutlineClock />
 
-                <p className="ml-2 ">
+                <div className="ml-2 ">
                   {status === STATUS.TIMEOUT && "Time out"}
                   {status === STATUS.IS_PENDING && duration}
                   {status === STATUS.COMPLETED && "Completed"}
@@ -100,7 +100,7 @@ function Task({ task }) {
                       }
                     />
                   )}
-                </p>
+                </div>
               </div>
             </div>
             <div className="flex gap-2">

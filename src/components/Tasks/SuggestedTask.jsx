@@ -15,7 +15,6 @@ function SuggestedTask({ task, duration }) {
   const { scheduleId } = useParams();
   const queryClient = useQueryClient();
 
-  function handleDeleteTask() {}
   function handleCreateTask() {
     createTask(
       {
@@ -43,17 +42,8 @@ function SuggestedTask({ task, duration }) {
           boxShadow:
             " inset 0 0 0.5px 1px hsla(0, 0%, 100%, 0.075), 0 0 0 1px hsla(0, 0%, 0%, 0.05),0 0.3px 0.4px hsla(0, 0%, 0%, 0.02),0 0.9px 1.5px hsla(0, 0%, 0%, 0.045), 0 3.5px 6px hsla(0, 0%, 0%, 0.09)",
         }}
-        className=" size-48 flex flex-col justify-between   rounded-lg  pt-5 px-4 relative"
+        className=" size-48 flex flex-col justify-between   rounded-lg  pt-5 px-4 "
       >
-        <button
-          className="absolute right-2 top-2"
-          onClick={() => handleDeleteTask()}
-          disabled={isPending}
-          type="button"
-        >
-          <FaTimes className="hover:cursor-pointer hover:text-red-500 transition-all duration-300" />
-        </button>
-
         <p className="overflow-scroll no-scrollbar font-semibold w-11/12 whitespace-normal overflow-wrap-anywhere">
           {task}
         </p>

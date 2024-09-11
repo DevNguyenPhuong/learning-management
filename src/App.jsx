@@ -30,7 +30,7 @@ function App() {
   const { mode } = useSelector((store) => store.user);
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ConfigProvider
         theme={{
           algorithm:
