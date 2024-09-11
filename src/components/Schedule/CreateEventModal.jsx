@@ -1,26 +1,55 @@
+import { useQueryClient } from "@tanstack/react-query";
 import { DatePicker, Form, Input, Modal, Radio } from "antd";
+import dayjs from "dayjs";
+import moment from "moment";
 import React from "react";
 import { createPortal } from "react-dom";
 import { useSelector } from "react-redux";
-import { useCreateEvent } from "./useCreateEvent";
-import dayjs from "dayjs";
+import { useCreateSchedule } from "./useCreateSchedule";
+import { useGetSchedule } from "./useGetSchedule";
 
 function CreateEventModal({ isOpenModal, onCloseModal }) {
   const [form] = Form.useForm();
+  const queryClient = useQueryClient();
   const { id } = useSelector((store) => store.user);
-  const { createEvent, isPending } = useCreateEvent();
+  const { createSchedule, isPending } = useCreateSchedule();
+  const { schedules, isLoading } = useGetSchedule(id);
 
   function handleSubmit(event) {
-    createEvent({
-      userId: id,
-      event: {
+    createSchedule(
+      {
         ...event,
-        date: dayjs(event.date).format("DD-MM-YYYY"),
+        userId: id,
+        startAt: dayjs(event.date).unix(),
+        day: dayjs(event.date).format("YYYY-MM-DD"),
+        endAt: null,
       },
-    });
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ["schedules"] });
+          queryClient.invalidateQueries({ queryKey: ["upComingEvent"] });
+          form.resetFields();
+          onCloseModal();
+        },
+      }
+    );
   }
+
+  const disabledDate = (current) => {
+    // Disable dates before today
+    if (current && current < moment().startOf("day")) return true;
+
+    // Disable dates that exist in the schedule
+    return schedules.some((schedule) => {
+      return current
+        .startOf("day")
+        .isSame(moment(schedule.startAt).startOf("day"), "day");
+    });
+  };
+
   return createPortal(
     <Modal
+      loading={isLoading}
       maskClosable={!isPending}
       className="text-center"
       title="Create new event"
@@ -54,7 +83,11 @@ function CreateEventModal({ isOpenModal, onCloseModal }) {
           },
         ]}
       >
-        <DatePicker format={"DD-MM-YYYY"} className="w-full" />
+        <DatePicker
+          disabledDate={disabledDate}
+          format={"DD-MM-YYYY"}
+          className="w-full"
+        />
       </Form.Item>
       <Form.Item
         className="mb-8 mt-8"
@@ -71,7 +104,7 @@ function CreateEventModal({ isOpenModal, onCloseModal }) {
       </Form.Item>
 
       <Form.Item
-        name="role"
+        name="priority"
         className="mb-8 mt-8 text-left"
         rules={[
           {
@@ -81,9 +114,9 @@ function CreateEventModal({ isOpenModal, onCloseModal }) {
         ]}
       >
         <Radio.Group disabled={isPending}>
-          <Radio value="medium">Medium</Radio>
-          <Radio value="high">High</Radio>
-          <Radio value="special">Special</Radio>
+          <Radio value="MEDIUM">Medium</Radio>
+          <Radio value="HIGH">High</Radio>
+          <Radio value="SPECIAL">Special</Radio>
         </Radio.Group>
       </Form.Item>
     </Modal>,

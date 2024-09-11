@@ -8,7 +8,7 @@ export function useCreateUpdateNote() {
     mutationFn: (data) => createUpdateNoteAPI(data),
 
     onSuccess: (data, payload) => {
-      toast.success(`Note ${payload.type}d`);
+      //    toast.success(`Note ${payload.type}d`);
       queryClient.invalidateQueries({
         queryKey: ["notes"],
       });

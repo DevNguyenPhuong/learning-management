@@ -1,6 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "../Utils/constants";
 import { axiosConfig } from "../Utils/axiosConfig";
+import { BASE_URL } from "../Utils/constants";
+import { getDaysInCurrentWeek } from "../Utils/helpers";
 
 export async function getUser(userId) {
   const { data, error } = await axios.get(`${BASE_URL}/users/${userId}`);
@@ -9,53 +10,71 @@ export async function getUser(userId) {
 }
 
 export async function getUserNotes(userId) {
-  console.log(userId);
-  const { data } = await axios.get(
+  const { data, error } = await axios.get(
     `${BASE_URL}/users/${userId}/notes`,
     axiosConfig()
   );
-  console.log(data);
+  if (error) throw error;
 
-  return data;
+  const sortedNotes = data?.data.sort((a, b) => {
+    return a.id.localeCompare(b.id);
+  });
+
+  return sortedNotes;
 }
 
 export async function getUserSchedules(userId) {
-  // const { data, error } = await axios.get(
-  //   `${BASE_URL}/${userId}/schedules`,
-  //   axiosConfig()
-  // );
-  // if (error) throw new Error(error.messsage);
-  const fakeData = [
-    {
-      date: "14-08-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "1",
-      priority: "high",
-    },
-    {
-      date: "17-08-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "2",
-      priority: "high",
-    },
-    {
-      date: "11-09-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "3",
-      priority: "medium",
-    },
-    {
-      date: "21-07-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "4",
-      priority: "medium",
-    },
-    {
-      date: "28-08-2024",
-      content: "Thi cấu trúc dữ liệu và giải thuật",
-      id: "5",
-      priority: "medium",
-    },
-  ];
-  return fakeData;
+  const { data, error } = await axios.get(
+    `${BASE_URL}/users/${userId}/schedules`,
+    axiosConfig()
+  );
+  if (error) throw new Error(error.messsage);
+
+  return data?.data;
+}
+
+export async function updateUser(newUser) {
+  const { data, error } = await axios.put(
+    `${BASE_URL}/users/${newUser.id}`,
+    newUser,
+    axiosConfig()
+  );
+
+  if (error) throw error;
+
+  return data?.data;
+}
+
+export async function getUserInfo(userId) {
+  const { data, error } = await axios.get(`${BASE_URL}/users/${userId}`);
+  if (error) throw error;
+
+  return data?.data;
+}
+
+export async function getUpComingEvent(userId) {
+  const { data, error } = await axios.get(
+    `${BASE_URL}/users/${userId}/upComingEvent`,
+    axiosConfig()
+  );
+  if (error) throw error;
+  return data?.data;
+}
+
+export async function getWeekSchedules(userId, week) {
+  const arrDay = getDaysInCurrentWeek(week);
+
+  const schedulePromises = arrDay.map((day) =>
+    axios.get(`${BASE_URL}/users/${userId}/schedules/${day}`, axiosConfig())
+  );
+
+  try {
+    const responses = await Promise.all(schedulePromises);
+
+    const schedules = responses.map((response) => response.data?.data);
+
+    return schedules;
+  } catch (error) {
+    throw error;
+  }
 }

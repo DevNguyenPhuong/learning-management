@@ -17,7 +17,6 @@ function CreateUpdateNoteModal({
   const { createUpdateNote, isPending } = useCreateUpdateNote();
 
   function handleSubmit(values) {
-    console.log(type);
     if (type === "update")
       createUpdateNote(
         {

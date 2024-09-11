@@ -30,7 +30,7 @@ function App() {
   const { mode } = useSelector((store) => store.user);
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <ConfigProvider
         theme={{
           algorithm:
@@ -52,7 +52,7 @@ function App() {
               <Route index element={<Navigate replace to="dashboard" />} />
               <Route path="dashboard" element={<Dashboard />} />
               <Route path="schedules" element={<Schedules />} />
-              <Route path="schedules/:id" element={<Schedule />} />
+              <Route path="schedules/:scheduleId" element={<Schedule />} />
               <Route path="user" element={<User />} />
               <Route path="notes" element={<Notes />} />
             </Route>

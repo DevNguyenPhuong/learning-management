@@ -42,20 +42,48 @@ function useSpeechRecognition() {
     recognition.onresult = (event) => {
       const text = event?.results[0][0]?.transcript;
       setText(event.results[0][0].transcript);
+      console.log(text);
 
-      if (text === "Bật chế độ tối.") {
-        speak("Chế độ tối đã bật");
-        dispatch(turnOnDarkMode());
+      switch (text) {
+        case "Bật chế độ tối.":
+          speak("Chế độ tối đã bật");
+          dispatch(turnOnDarkMode());
+          break;
+
+        case "Bật chế độ sáng.":
+          speak("Chế độ sáng đã bật");
+          dispatch(turnOnLightMode());
+          break;
+
+        case "Trợ giúp.":
+          speak(
+            "Tôi là trợ lý của trang web, nói bật chế độ sáng, tối để thay đổi giao diện. Đến trang chủ, trang ghi chú, trang người dùng, trang lịch học để di chuyển đến các trang tương ứng."
+          );
+          break;
+
+        case "Đến trang chủ.":
+          navigate("/dashboard");
+          break;
+
+        case "Đến trang lịch học.":
+          navigate("/schedules");
+          break;
+
+        case "Đến trang ghi chú.":
+          navigate("/notes");
+          break;
+
+        case "Đến trang người dùng.":
+          navigate("/user");
+          break;
+
+        default:
+          speak(
+            "Không nhận diện được câu lệnh, nói trợ giúp để biết thêm thông tin."
+          );
+          break;
       }
 
-      if (text === "Bật chế độ sáng.") {
-        speak("Chế độ sáng đã bật");
-        dispatch(turnOnLightMode());
-      }
-
-      if (text === "Đến trang chủ.") {
-        navigate("/dashboard");
-      }
       recognition.stop();
       setIsListening(false);
     };

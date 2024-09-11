@@ -19,7 +19,7 @@ export function useLogin() {
       localStorage.setItem("jwtToken", result?.jwtToken);
       localStorage.setItem("isAuthenticated", true);
       navigate("/dashboard");
-      toast.success(`Welcome ${result?.username}`);
+      toast.success(`Welcome ${result?.full_name}`);
     },
 
     onError: (error) => {

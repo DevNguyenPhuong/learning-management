@@ -4,18 +4,18 @@ import { useSelector } from "react-redux";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-function DoughnutChart() {
+function DoughnutChart({ totalTasksInWeek, totalTasksToday }) {
   const { mode } = useSelector((store) => store.user);
   const data = {
     datasets: [
       {
         label: "Task",
-        data: [48, 23],
+        data: [totalTasksInWeek, totalTasksToday],
         backgroundColor:
           mode === "light" ? ["#86efac", "#7dd3fc"] : ["#16a34a", "#0284c7"],
       },
     ],
-    labels: ["completed", "processing"],
+    labels: ["week", "today"],
   };
 
   return (

@@ -3,7 +3,6 @@ import { BASE_URL } from "../Utils/constants";
 import { axiosConfig } from "../Utils/axiosConfig";
 
 export async function createUpdateNote({ note, type, updateNoteId }) {
-  console.log(type);
   if (type === "create")
     await axios.post(`${BASE_URL}/notes`, note, axiosConfig());
   if (type === "update")

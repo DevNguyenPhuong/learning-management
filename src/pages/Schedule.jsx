@@ -1,5 +1,7 @@
+import SchedulePage from "../components/Schedule/Schedule";
+
 function Schedule() {
-  return <div></div>;
+  return <SchedulePage />;
 }
 
 export default Schedule;
