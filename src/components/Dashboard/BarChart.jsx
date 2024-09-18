@@ -79,7 +79,7 @@ function BarChart() {
           },
           title: {
             display: true,
-            text: "Average Study Time per Day",
+            text: "Total completed time per Day",
             font: {
               size: 20,
               weight: "bold",

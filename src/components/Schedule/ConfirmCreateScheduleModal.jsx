@@ -46,8 +46,8 @@ function ConfirmCreateScheduleModal({ isOpenModal, onCloseModal, dayValue }) {
       onOk={handleSubmit}
     >
       <p>
-        It looks like you don't have any events scheduled for today. Would you
-        like to create a new schedule?
+        It looks like you don't have any tasks scheduled for this day. Would you
+        like to create a new day?
       </p>
     </Modal>,
     document.body
